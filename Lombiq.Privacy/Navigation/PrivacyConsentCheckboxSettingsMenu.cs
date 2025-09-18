@@ -6,6 +6,7 @@ using OrchardCore.Modules;
 using OrchardCore.Navigation;
 using System.Threading.Tasks;
 using static Lombiq.Privacy.Constants.TypeNames;
+using StringExtensions = OrchardCore.Modules.StringExtensions;
 
 namespace Lombiq.Privacy.Navigation;
 
@@ -24,7 +25,7 @@ public sealed class PrivacyConsentCheckboxSettingsMenu : INavigationProvider
 
     public async ValueTask BuildNavigationAsync(string name, NavigationBuilder builder)
     {
-        if (!name.EqualsOrdinalIgnoreCase("admin"))
+        if (!StringExtensions.EqualsOrdinalIgnoreCase( name, "admin"))
         {
             return;
         }

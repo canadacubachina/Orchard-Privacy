@@ -11,6 +11,7 @@ using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using StringExtensions = OrchardCore.Modules.StringExtensions;
 
 namespace Lombiq.Privacy.Services;
 
@@ -72,7 +73,7 @@ public class PrivacyConsentService : IPrivacyConsentService
         }
 
         var cookieConsent = httpContext.Request.Cookies[_cookiePolicyOptions.Value.ConsentCookie.Name];
-        return !string.IsNullOrEmpty(cookieConsent) && cookieConsent.EqualsOrdinalIgnoreCase("yes");
+        return !string.IsNullOrEmpty(cookieConsent) && StringExtensions.EqualsOrdinalIgnoreCase(cookieConsent, "yes");
     }
 
     public async Task StoreUserConsentAsync(ClaimsPrincipal user) =>

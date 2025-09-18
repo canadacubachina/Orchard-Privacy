@@ -6,6 +6,7 @@ using OrchardCore.Modules;
 using OrchardCore.Mvc.Core.Utilities;
 using OrchardCore.Users.Controllers;
 using System.Threading.Tasks;
+using StringExtensions = OrchardCore.Modules.StringExtensions;
 
 namespace Lombiq.Privacy.Filters;
 
@@ -26,10 +27,10 @@ public class ExternalRegistrationCheckboxInjectionFilter : IAsyncResultFilter
     {
         var routeValues = context.ActionDescriptor.RouteValues;
         if (context.IsNotFullViewRendering() ||
-            !routeValues["Area"].EqualsOrdinalIgnoreCase($"{nameof(OrchardCore)}.{nameof(OrchardCore.Users)}") ||
-            !routeValues["Controller"].EqualsOrdinalIgnoreCase(typeof(ExternalAuthenticationsController).ControllerName()) ||
-            (!routeValues["Action"].EqualsOrdinalIgnoreCase(nameof(ExternalAuthenticationsController.ExternalLoginCallback)) &&
-            !routeValues["Action"].EqualsOrdinalIgnoreCase(nameof(ExternalAuthenticationsController.RegisterExternalLogin))))
+            !StringExtensions.EqualsOrdinalIgnoreCase(routeValues["Area"], $"{nameof(OrchardCore)}.{nameof(OrchardCore.Users)}") ||
+            !StringExtensions.EqualsOrdinalIgnoreCase(routeValues["Controller"], typeof(ExternalAuthenticationsController).ControllerName()) ||
+            (!StringExtensions.EqualsOrdinalIgnoreCase(routeValues["Action"], nameof(ExternalAuthenticationsController.ExternalLoginCallback)) &&
+            !StringExtensions.EqualsOrdinalIgnoreCase(routeValues["Action"], nameof(ExternalAuthenticationsController.RegisterExternalLogin))))
         {
             await next();
             return;
